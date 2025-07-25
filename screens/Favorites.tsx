@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import MealList from "../components/MealList/MealList";
-import { FavoritesContext } from "../store/context/favorites-context";
-import { useContext } from "react";
+import { useAppSelector } from "../store/redux/hooks";
 
 const Favorites = () => {
-  const { favorites } = useContext(FavoritesContext);
+  const favorites = useAppSelector((state) => state.favorites.favorites);
+
   return favorites.length > 0 ? (
     <MealList categoryMeals={favorites} />
   ) : (
