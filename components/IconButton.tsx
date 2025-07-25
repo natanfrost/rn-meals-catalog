@@ -1,4 +1,4 @@
-import { Pressable, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import type { ComponentProps } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
