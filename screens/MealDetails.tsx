@@ -1,15 +1,31 @@
 import { useNavigation, useRoute } from "@react-navigation/core";
-import { useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import Meal from "../models/meal";
 import IconButton from "../components/IconButton";
+import { FavoritesContext } from "../store/context/favorites-context";
 
 const MealDetails = () => {
   const [meal, setMeal] = useState<Meal | null>(null);
   const route = useRoute();
   const navigation = useNavigation();
   const { mealId } = route.params as { mealId: string };
+  const { favorites, addFavorite, removeFavorite } =
+    useContext(FavoritesContext);
+
+  const isMealFavorite = useMemo(
+    () => favorites.some((fav) => fav.id === mealId),
+    [favorites, mealId]
+  );
+
+  const handleFavoriteToggle = (meal: Meal) => {
+    if (isMealFavorite) {
+      removeFavorite(meal.id);
+      return;
+    }
+    addFavorite(meal);
+  };
 
   useLayoutEffect(() => {
     const mealDetails = MEALS.find((meal) => meal.id === mealId);
@@ -18,12 +34,15 @@ const MealDetails = () => {
       navigation.setOptions({
         title: mealDetails.title,
         headerRight: () => (
-          <IconButton icon="star" onPress={() => {}} color="#fff" />
+          <IconButton
+            icon={isMealFavorite ? "star" : "star-outline"}
+            onPress={() => handleFavoriteToggle(mealDetails)}
+            color="#fff"
+          />
         ),
-        // headerRight: () => <Text style={{ color: "#fff" }}>Favorite</Text>,
       });
     }
-  }, [mealId, navigation]);
+  }, [mealId, navigation, isMealFavorite]);
 
   return (
     <ScrollView>
