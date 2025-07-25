@@ -3,10 +3,21 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { CATEGORIES, MEALS } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
 import { useLayoutEffect } from "react";
+import { RootStackParamList } from "../types/navigation";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type MealsScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "MealDetails"
+>;
+
+type MealsProps = {
+  navigation: MealsScreenNavigationProp;
+};
 
 const MealsOverview = () => {
   const route = useRoute();
-  const navigation = useNavigation();
+  const navigation = useNavigation<MealsScreenNavigationProp>();
   const { categoryId } = route.params as { categoryId: string };
 
   const categoryMeals = MEALS.filter((meal) =>
@@ -23,6 +34,10 @@ const MealsOverview = () => {
     });
   }, [categoryId, navigation]);
 
+  const handleMealSelected = (mealId: string) => {
+    navigation.navigate("MealDetails", { mealId });
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -36,7 +51,7 @@ const MealsOverview = () => {
             duration={item.duration}
             complexity={item.complexity}
             affordability={item.affordability}
-            onPress={() => console.log(`Selected meal: ${item.title}`)}
+            onPress={() => handleMealSelected(item.id)}
           />
         )}
       />
