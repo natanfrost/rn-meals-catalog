@@ -3,6 +3,7 @@ import { useLayoutEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import Meal from "../models/meal";
+import IconButton from "../components/IconButton";
 
 const MealDetails = () => {
   const [meal, setMeal] = useState<Meal | null>(null);
@@ -16,9 +17,13 @@ const MealDetails = () => {
       setMeal(mealDetails);
       navigation.setOptions({
         title: mealDetails.title,
+        headerRight: () => (
+          <IconButton icon="star" onPress={() => {}} color="#fff" />
+        ),
+        // headerRight: () => <Text style={{ color: "#fff" }}>Favorite</Text>,
       });
     }
-  }, [mealId]);
+  }, [mealId, navigation]);
 
   return (
     <ScrollView>
