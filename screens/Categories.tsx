@@ -1,13 +1,9 @@
-import { View, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { CATEGORIES } from "../data/dummy-data";
 import CategoryGridTile from "../components/CategoryGridTile";
 
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
-type RootStackParamList = {
-  Categories: undefined;
-  MealsOverview: { categoryId: string };
-};
+import { RootStackParamList } from "../types/navigation";
 
 type CategoriesScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
