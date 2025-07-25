@@ -1,8 +1,8 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { CATEGORIES, MEALS } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 const MealsOverview = () => {
   const route = useRoute();
@@ -13,7 +13,7 @@ const MealsOverview = () => {
     meal.categoryIds.includes(categoryId)
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const categoryTitle = CATEGORIES.find(
       (category) => category.id === categoryId
     )?.title;
